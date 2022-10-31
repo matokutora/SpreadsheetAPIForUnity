@@ -3,6 +3,7 @@ using System.Text;
 using UnityEngine.Networking;
 using Spreadsheet.API;
 using Spreadsheet.Data;
+using System;
 
 namespace Spreadsheet
 {
@@ -11,6 +12,7 @@ namespace Spreadsheet
     /// </summary>
     public class SpreadsheetImporter
     {
+        Action<DownloadHandler> _callback;
         StringBuilder _uri;
         ISpreadsheetAPI _api;
 
@@ -40,6 +42,11 @@ namespace Spreadsheet
             _uri.Append(queryData.CreateQuery());
         }
 
+        public void AddCallbackEvent(Action<DownloadHandler> callback)
+        {
+            _callback += callback;
+        }
+
         /// <summary>
         /// Webè„Ç…ê\êø
         /// </summary>
@@ -58,6 +65,7 @@ namespace Spreadsheet
             while (!request.isDone) { yield return 0; }
 
             _api.IsDoneCallback(request.downloadHandler);
+            _callback?.Invoke(request.downloadHandler);
         }
     }
 }

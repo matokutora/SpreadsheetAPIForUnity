@@ -11,6 +11,7 @@ public class TestRequester : MonoBehaviour
     
     void Start()
     {
-        SpreadsheetAPI.SendCreateJsonModel(_dataAsset, _sheetIndex);
+        SpreadsheetAPI.SendCreateJsonDataModel(_dataAsset, _sheetIndex);
+        SpreadsheetAPI.SendCreateJsonFile(_dataAsset, _sheetIndex);
     }
 }

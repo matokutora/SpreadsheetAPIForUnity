@@ -1,8 +1,6 @@
 using UnityEngine.Networking;
 using Spreadsheet.Data;
 using Spreadsheet.IO;
-using Spreadsheet.Data.Json;
-using UnityEngine;
 
 namespace Spreadsheet.API
 {
@@ -13,7 +11,7 @@ namespace Spreadsheet.API
         SpreadSheetIO _io = new SpreadSheetIO();
 
         static SpreadsheetAPI s_instance = null;
-        static public SpreadsheetAPI Instance
+        static protected SpreadsheetAPI Instance
         {
             get
             {
@@ -24,15 +22,6 @@ namespace Spreadsheet.API
 
                 return s_instance;
             }
-        }
-
-        public T Request<T>(SpreadsheetJsonType jsonType)
-        {
-            string path = ResourceFilePath + "Json/" + jsonType.ToString();
-            TextAsset a = Resources.Load<TextAsset>(path);
-
-            T model = JsonUtility.FromJson<T>(a.text);
-            return model;
         }
 
         #if UNITY_EDITOR

@@ -8,14 +8,14 @@ namespace Spreadsheet.Data
     [CreateAssetMenu(fileName = "SpreadsheetData_[DataName]")]
     public class SpreadsheetDataAsset : ScriptableObject
     {
-        [SerializeField] string _deproyKey;
+        [SerializeField] string _deproyID;
         [SerializeField] string _spreadSheetID;
         [SerializeField] string[] _sheetIDArray;
 
         /// <summary>
         /// デプロイキー
         /// </summary>
-        public string DeproyDey => _deproyKey;
+        public string DeproyID => _deproyID;
         /// <summary>
         /// スプレッドシートのID
         /// </summary>

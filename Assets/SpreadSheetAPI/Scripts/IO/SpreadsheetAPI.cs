@@ -4,9 +4,10 @@ using Spreadsheet.IO;
 
 namespace Spreadsheet.API
 {
-    public class SpreadsheetAPI : ISpreadsheetAPI
+    public class SpreadsheetAPI : ISpreadsheetImport
     {
         static public readonly string ResourceFilePath = "SpreadsheetAPI/";
+        static public readonly string HTTPS = "https://script.google.com/macros/s/";
 
         SpreadSheetIO _io = new SpreadSheetIO();
 
@@ -44,7 +45,7 @@ namespace Spreadsheet.API
         /// <param name="sheetIndex">Sheet番号</param>
         public static void SendCreateJsonDataModel(SpreadsheetDataAsset dataAsset, int sheetIndex, string fileName)
         {
-            SpreadsheetImporter requester = new SpreadsheetImporter(Instance, dataAsset.DeproyDey);
+            SpreadsheetImporter requester = new SpreadsheetImporter(Instance, dataAsset.DeproyID);
 
             string spreadSheetID = dataAsset.SpreadSheetID;
             string sheetID = dataAsset.SheetIDArray[sheetIndex];
@@ -57,7 +58,7 @@ namespace Spreadsheet.API
 
         public static void SendCreateJsonFile(SpreadsheetDataAsset dataAsset, int sheetIndex, string fileName)
         {
-            SpreadsheetImporter requester = new SpreadsheetImporter(Instance, dataAsset.DeproyDey);
+            SpreadsheetImporter requester = new SpreadsheetImporter(Instance, dataAsset.DeproyID);
 
             string spreadSheetID = dataAsset.SpreadSheetID;
             string sheetID = dataAsset.SheetIDArray[sheetIndex];
@@ -72,7 +73,7 @@ namespace Spreadsheet.API
         /// JsonFileの作成
         /// </summary>
         /// <param name="handler">Json形式のデータ</param>
-        void ISpreadsheetAPI.IsDoneCallback(DownloadHandler handler)
+        void ISpreadsheetImport.IsDoneCallback(DownloadHandler handler)
         {
             UnityEngine.Debug.Log("IsDone");
         }

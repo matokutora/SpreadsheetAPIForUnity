@@ -14,22 +14,20 @@ namespace Spreadsheet
     {
         Action<DownloadHandler> _callback;
         StringBuilder _uri;
-        ISpreadsheetAPI _api;
-
-        readonly string HTTPS = "https://script.google.com/macros/s/";
+        ISpreadsheetImport _import;
 
         /// <summary>
         /// 初期化
         /// </summary>
         /// <param name="api">リクエスト対象者</param>
         /// <param name="deproyKey">macroのデプロイキー</param>
-        public SpreadsheetImporter(ISpreadsheetAPI api, string deproyKey)
+        public SpreadsheetImporter(ISpreadsheetImport api, string deproyKey)
         {
             _uri = new StringBuilder();
-            _uri.Append(HTTPS);
+            _uri.Append(SpreadsheetAPI.HTTPS);
             _uri.Append($"{deproyKey}/exec");
 
-            _api = api;
+            _import = api;
         }
 
         /// <summary>
@@ -64,7 +62,7 @@ namespace Spreadsheet
             yield return request.SendWebRequest();
             while (!request.isDone) { yield return 0; }
 
-            _api.IsDoneCallback(request.downloadHandler);
+            _import.IsDoneCallback(request.downloadHandler);
             _callback?.Invoke(request.downloadHandler);
         }
     }

@@ -5,4 +5,6 @@
 
 <h2>使用方法</h2>
   <p>WindowにSpreadsheetAPIメニューが追加されます。</p>
-  <p>パッケージ内Readmeを参考にしてください。</p>
+  <a href = "https://faceted-angle-bd8.notion.site/SpreadsheetAPI-442b6bcfa5304226a99c05d9aa197d7d">
+    <p>資料</p>
+  </a>

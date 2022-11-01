@@ -1,0 +1,23 @@
+#GenerateJsonEnum
+{
+	left   : auto;
+	top    : 70px;
+	right  : auto;
+	bottom : 200px;
+}
+
+#JsonBox
+{
+	left   : auto;
+	top    : 20px;
+	right  : auto;
+	bottom : 200px;
+}
+
+#ModelBox
+{
+	left   : auto;
+	top    : 30px;
+	right  : auto;
+	bottom : 200px;
+}

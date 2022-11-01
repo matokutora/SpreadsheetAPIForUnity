@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using System.Text;
 
 namespace Spreadsheet.Data
@@ -41,5 +43,5 @@ namespace Spreadsheet.Data
             return query.ToString();
         }
     }
-
 }
+#endif

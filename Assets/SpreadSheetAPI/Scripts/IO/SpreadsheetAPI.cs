@@ -1,15 +1,19 @@
 using UnityEngine.Networking;
 using Spreadsheet.Data;
 using Spreadsheet.IO;
+using Spreadsheet.Data.Json;
+using UnityEngine;
 
 namespace Spreadsheet.API
 {
     public class SpreadsheetAPI : ISpreadsheetAPI
     {
-        protected SpreadsheetQueryType QueryType { get; set; }
+        static public readonly string ResourceFilePath = "SpreadsheetAPI/";
+
+        SpreadSheetIO _io = new SpreadSheetIO();
 
         static SpreadsheetAPI s_instance = null;
-        static protected SpreadsheetAPI Instance
+        static public SpreadsheetAPI Instance
         {
             get
             {
@@ -22,15 +26,26 @@ namespace Spreadsheet.API
             }
         }
 
-        protected void OnGetCreateJsonModel(DownloadHandler handler)
+        public T Request<T>(SpreadsheetJsonType jsonType)
         {
-            string[] keyArray = handler.text.Split(",");
-            SpreadSheetIO.CreateJsonDataModel("Sample", keyArray);
+            string path = ResourceFilePath + "Json/" + jsonType.ToString();
+            TextAsset a = Resources.Load<TextAsset>(path);
+
+            T model = JsonUtility.FromJson<T>(a.text);
+            return model;
         }
 
-        protected void OnGetGetJsonModel(DownloadHandler handler)
+        #if UNITY_EDITOR
+
+        protected void OnGetCreateJsonModel(DownloadHandler handler, string fileName)
         {
-            SpreadSheetIO.CreateJsonFile("Sample", handler.text);
+            string[] keyArray = handler.text.Split(",");
+            _io.CreateJsonDataModel(fileName, keyArray);
+        }
+
+        protected void OnGetGetJsonModel(DownloadHandler handler, string fileName)
+        {
+            _io.CreateJsonFile(fileName, handler.text);
         }
 
         /// <summary>
@@ -38,7 +53,7 @@ namespace Spreadsheet.API
         /// </summary>
         /// <param name="dataAsset">作成するAsset</param>
         /// <param name="sheetIndex">Sheet番号</param>
-        public static void SendCreateJsonDataModel(SpreadsheetDataAsset dataAsset, int sheetIndex)
+        public static void SendCreateJsonDataModel(SpreadsheetDataAsset dataAsset, int sheetIndex, string fileName)
         {
             SpreadsheetImporter requester = new SpreadsheetImporter(Instance, dataAsset.DeproyDey);
 
@@ -47,11 +62,11 @@ namespace Spreadsheet.API
             SpreadsheetQueryData queryData = new SpreadsheetQueryData(spreadSheetID, sheetID);
 
             requester.SetQuery(queryData, SpreadsheetQueryType.CreateJsonModel);
-            requester.AddCallbackEvent(Instance.OnGetCreateJsonModel);
+            requester.AddCallbackEvent(handler => Instance.OnGetCreateJsonModel(handler, fileName));
             requester.Request();
         }
 
-        public static void SendCreateJsonFile(SpreadsheetDataAsset dataAsset, int sheetIndex)
+        public static void SendCreateJsonFile(SpreadsheetDataAsset dataAsset, int sheetIndex, string fileName)
         {
             SpreadsheetImporter requester = new SpreadsheetImporter(Instance, dataAsset.DeproyDey);
 
@@ -60,7 +75,7 @@ namespace Spreadsheet.API
             SpreadsheetQueryData queryData = new SpreadsheetQueryData(spreadSheetID, sheetID);
 
             requester.SetQuery(queryData, SpreadsheetQueryType.GetJsonModel);
-            requester.AddCallbackEvent(Instance.OnGetGetJsonModel);
+            requester.AddCallbackEvent(handler => Instance.OnGetGetJsonModel(handler, fileName));
             requester.Request();
         }
 
@@ -70,7 +85,9 @@ namespace Spreadsheet.API
         /// <param name="handler">Json形式のデータ</param>
         void ISpreadsheetAPI.IsDoneCallback(DownloadHandler handler)
         {
-            
+            UnityEngine.Debug.Log("IsDone");
         }
+
+        #endif
     }
 }

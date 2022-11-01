@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UXML 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="UnityEngine.UIElements" 
+    xmlns:uie="UnityEditor.UIElements"
+>
+    <uie:ObjectField label="DataAsset" name="DataAsset" type="UnityEngine.ScriptableObject, UnityEngine.CoreModule"/>
+    <uie:IntegerField label="SheetIndex" name="SheetIndex"/>
+    <Box name="JsonBox">
+        <Label text="Json"/>
+        <TextField label="FileName" name="JsonFile"/>
+        <Button text="GenerateJsonFile" name="GenerateRequestJson"/>
+    </Box>
+    <Box name="ModelBox">
+        <Label text="DataModel"/>
+        <TextField label="FileName" name="ModelFile"/>
+        <Button text="GenerateModel.cs" name="GenerateRequestModel"/>
+    </Box>
+    <Button text="GenerateJsonEnum" name="GenerateJsonEnum"/>
+</UXML>
